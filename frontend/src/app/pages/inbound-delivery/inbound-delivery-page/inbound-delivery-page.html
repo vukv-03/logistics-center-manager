@@ -1,0 +1,52 @@
+<div class="name">DELIVERIES</div>
+
+<div class="search">
+    <input type="text" [formControl]="searchControl" placeholder="Search deliveries...">
+    <button type="button" (click)="searchDeliveries()">
+        Search
+    </button>
+</div>
+
+<button routerLink="/deliveries/history">
+    View History
+</button>
+
+<app-inbound-delivery-form 
+    [deliveryToEdit]="deliveryToEdit"
+    (deliveryCreated)="loadDeliveries()" 
+    (deliveryChanged)="loadDeliveries()">
+</app-inbound-delivery-form >
+
+<app-inbound-delivery-table 
+    [deliveries]="deliveries()"
+    [showActions]="true"
+    (editDelivery)="startEditing($event)"
+    (deleteDelivery)="deleteDelivery($event)"
+    (viewItems)="viewItems($event)">
+</app-inbound-delivery-table>
+
+@if (selectedDelivery) {
+    <h3>Items for Order #{{ selectedDelivery.id }}</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Description</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (item of selectedDelivery.items; track item.id) {
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.product.description }}</td>
+                    <td>{{ item.quantity }}</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="button" (click)="selectedDelivery = null">
+        Close
+    </button>
+}

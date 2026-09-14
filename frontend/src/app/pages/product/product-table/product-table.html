@@ -1,0 +1,31 @@
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Measurement unit</th>
+            <th>Quantity in stock</th>
+            <th>Amount of product</th>
+            <th>Product owner ID</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (p of products; track p.id) {
+        <tr>
+            <td>{{p.id}}</td>
+            <td>{{p.name}}</td>
+            <td>{{p.description}}</td>
+            <td>{{p.measurementUnit}}</td>
+            <td>{{p.quantityInStock}}</td>
+            <td>{{p.amountOfProduct}}</td>
+            <td>{{p.productOwnerId}}</td>
+            <td>
+                <button type="button" (click)="editProduct.emit(p)">Edit</button>
+                <button type="button" (click)="deleteProduct.emit(p.id)">Remove</button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

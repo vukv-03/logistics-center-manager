@@ -1,11 +1,16 @@
 package rs.ac.singidunum.novisad.lcm.model;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import rs.ac.singidunum.novisad.lcm.model.helperClasses.ProductType;
 import rs.ac.singidunum.novisad.lcm.model.helperClasses.enums.MeasurementUnit;
 import rs.ac.singidunum.novisad.lcm.model.users.Customer;
@@ -19,10 +24,14 @@ public class Product {
 	@Column(nullable = false)
 	private String name;
 	private String description;
-	private MeasurementUnit measurementUnit;
 	
 	@Column(nullable = false)
-	private Long amountOfProduct;
+	@Enumerated(EnumType.STRING)
+	private MeasurementUnit measurementUnit;
+	private Long quantityInStock;
+	
+	@Column(nullable = false)
+	private BigDecimal amountOfProduct;
 	
 	@ManyToOne()
 	private Customer productOwner;
@@ -30,20 +39,22 @@ public class Product {
 	@ManyToOne()
 	private ProductType productType;
 	
-	@ManyToOne()
-	private Inventory inventory;
+	@PrePersist
+	private void onCreate() {
+		quantityInStock = 0L;
+	}
 
 	public Product() {
 		super();
 	}
 
-	public Product(Long id, String name, String description, MeasurementUnit measurementUnit, Long amountOfProduct,
+	public Product(String name, String description, MeasurementUnit measurementUnit, Long quantityInStock, BigDecimal amountOfProduct,
 			Customer productOwner, ProductType productType) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.measurementUnit = measurementUnit;
+		this.quantityInStock = quantityInStock;
 		this.amountOfProduct = amountOfProduct;
 		this.productOwner = productOwner;
 		this.productType = productType;
@@ -81,11 +92,19 @@ public class Product {
 		this.measurementUnit = measurementUnit;
 	}
 
-	public Long getAmountOfProduct() {
+	public Long getQuantityInStock() {
+		return quantityInStock;
+	}
+
+	public void setQuantityInStock(Long quantityInStock) {
+		this.quantityInStock = quantityInStock;
+	}
+
+	public BigDecimal getAmountOfProduct() {
 		return amountOfProduct;
 	}
 
-	public void setAmountOfProduct(Long amountOfProduct) {
+	public void setAmountOfProduct(BigDecimal amountOfProduct) {
 		this.amountOfProduct = amountOfProduct;
 	}
 

@@ -1,0 +1,41 @@
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Created at</th>
+            <th>Shipping date</th>
+            <th>Shipping time</th>
+            <th>Status</th>
+            <th>Delivery address</th>
+            <th>Customer ID</th>
+            <th>Customer</th>
+            <th>Items</th>
+            @if (showActions) {
+                <th>Actions</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @for (o of orders; track o.id) {
+        <tr>
+            <td>{{o.id}}</td>
+            <td>{{o.createdAt}}</td>
+            <td>{{o.shippingDate}}</td>
+            <td>{{o.shippingTime}}</td>
+            <td>{{o.status}}</td>
+            <td>{{o.deliveryAddress.city.name}}, {{o.deliveryAddress.street}} {{o.deliveryAddress.buildingNumber}}</td>
+            <td>{{o.customerId}}</td>
+            <td>{{o.customer}}</td>
+            <td>
+                <button type="button" (click)="viewItems.emit(o)">View</button>
+            </td>
+            @if (showActions) {
+                <td>
+                    <button type="button" (click)="editOrder.emit(o)">Edit</button>
+                    <button type="button" (click)="deleteOrder.emit(o.id)">Remove</button>
+                </td>
+            }
+        </tr>
+        }
+    </tbody>
+</table>

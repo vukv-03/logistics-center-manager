@@ -1,0 +1,44 @@
+<h2>Delivery History</h2>
+
+<button routerLink="/deliveries">
+    Back to Deliveries
+</button>
+
+<div class="search">
+    <input type="text" [formControl]="searchControl" placeholder="Search deliveries..">
+    <button type="button" (click)="searchDeliveriesHistory()">
+        Search
+    </button>
+</div>
+
+<app-inbound-delivery-table
+    [deliveries]="deliveries()"
+    [showActions]="false"
+    (viewItems)="viewItems($event)">
+</app-inbound-delivery-table>
+
+@if (selectedDelivery) {
+    <h3>Items for Order #{{ selectedDelivery.id }}</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Description</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (item of selectedDelivery.items; track item.id) {
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.product.description }}</td>
+                    <td>{{ item.quantity }}</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="button" (click)="selectedDelivery = null">
+        Close
+    </button>
+}

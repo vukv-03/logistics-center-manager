@@ -1,0 +1,42 @@
+<form [formGroup]="form" (submit)="onAdd()">
+    <div>
+        <label>Name</label>
+        <input formControlName="name" type="text" name="name">
+    </div>
+    <div>
+        <label>Description</label>
+        <input formControlName="description" type="text" name="description">
+    </div>
+    <div>
+        <label>Measurement unit</label>
+        <select formControlName="measurementUnit" name="measurementUnit">
+            <option [ngValue]="null"></option>
+            @for (unit of measurementUnits; track unit) {
+                <option [ngValue]="unit">{{unit}}</option>  
+            }
+        </select>
+    </div>
+    <div>
+        <label>Amount of product</label>
+        <input formControlName="amountOfProduct" type="number" name="amountOfProduct">
+    </div>
+    <div>
+        <label>Product owner</label>
+        <select formControlName="productOwnerId" name="productOwnerId">
+            @for (c of customers(); track c.id) {
+                <option [ngValue]="c.id">ID: {{c.id}} - {{c.name}}</option>
+            }
+        </select>
+    </div>
+        <div>
+        <label>Product type</label>
+        <select formControlName="productTypeId" name="productTypeId">
+            @for (t of productTypes(); track t.id) {    
+                <option [ngValue]="t.id">{{t.type}}</option>
+            }
+        </select>
+    </div>
+    <div>
+        <button type="button" (click)="onSubmit()">{{ isEditing ? 'Change' : 'Add' }}</button>
+    </div>
+</form>

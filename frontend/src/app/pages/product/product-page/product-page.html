@@ -1,0 +1,20 @@
+<div class="name">PRODUCTS</div>
+
+<div class="search">
+    <input type="text" [formControl]="searchControl" placeholder="Search products...">
+    <button type="button" (click)="searchProducts()">
+        Search
+    </button>
+</div>
+
+<app-product-table 
+    [products]="products()"
+    (editProduct)="startEditing($event)"
+    (deleteProduct)="deleteProduct($event)">
+</app-product-table>
+
+<app-product-form 
+    [productToEdit]="productToEdit"
+    (productCreated)="loadProducts()" 
+    (productChanged)="loadProducts()">
+</app-product-form>

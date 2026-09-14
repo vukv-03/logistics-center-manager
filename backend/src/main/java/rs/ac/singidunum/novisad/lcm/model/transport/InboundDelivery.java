@@ -1,7 +1,11 @@
 package rs.ac.singidunum.novisad.lcm.model.transport;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -10,7 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import rs.ac.singidunum.novisad.lcm.model.helperClasses.TimeSlot;
+import jakarta.persistence.PrePersist;
 import rs.ac.singidunum.novisad.lcm.model.helperClasses.enums.Status;
 import rs.ac.singidunum.novisad.lcm.model.users.Customer;
 
@@ -20,29 +24,35 @@ public class InboundDelivery {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	private LocalDateTime createdAt;
+	private LocalDate arrivalDate;
+	private LocalTime dockingTime;
+	
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
 	@ManyToOne()
-	private TimeSlot timeSlot;
+	private Customer customerDelivery;
 	
-	@ManyToOne()
-	private Customer customer;
-	
-	@OneToMany(mappedBy = "inboundDelivery")
+	@OneToMany(mappedBy = "inboundDelivery", cascade = CascadeType.ALL)
 	private List<InboundDeliveryItem> items;
+	
+	@PrePersist
+	private void onCreate() {
+		createdAt = LocalDateTime.now();
+		status = Status.PENDING;
+	}
 
 	public InboundDelivery() {
 		super();
 	}
 
-	public InboundDelivery(Long id, Status status, TimeSlot timeSlot, Customer customer,
-			List<InboundDeliveryItem> items) {
+	public InboundDelivery(LocalDate arrivalDate, LocalTime dockingTime,
+			Customer customerDelivery, List<InboundDeliveryItem> items) {
 		super();
-		this.id = id;
-		this.status = status;
-		this.timeSlot = timeSlot;
-		this.customer = customer;
+		this.arrivalDate = arrivalDate;
+		this.dockingTime = dockingTime;
+		this.customerDelivery = customerDelivery;
 		this.items = items;
 	}
 
@@ -54,6 +64,30 @@ public class InboundDelivery {
 		this.id = id;
 	}
 
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDate getArrivalDate() {
+		return arrivalDate;
+	}
+
+	public void setArrivalDate(LocalDate arrivalDate) {
+		this.arrivalDate = arrivalDate;
+	}
+
+	public LocalTime getDockingTime() {
+		return dockingTime;
+	}
+
+	public void setDockingTime(LocalTime dockingTime) {
+		this.dockingTime = dockingTime;
+	}
+
 	public Status getStatus() {
 		return status;
 	}
@@ -62,20 +96,12 @@ public class InboundDelivery {
 		this.status = status;
 	}
 
-	public TimeSlot getTimeSlot() {
-		return timeSlot;
+	public Customer getCustomerDelivery() {
+		return customerDelivery;
 	}
 
-	public void setTimeSlot(TimeSlot timeSlot) {
-		this.timeSlot = timeSlot;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setCustomerDelivery(Customer customerDelivery) {
+		this.customerDelivery = customerDelivery;
 	}
 
 	public List<InboundDeliveryItem> getItems() {

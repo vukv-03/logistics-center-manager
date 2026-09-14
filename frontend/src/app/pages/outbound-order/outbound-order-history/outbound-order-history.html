@@ -1,0 +1,44 @@
+<h2>Order History</h2>
+
+<button routerLink="/orders">
+    Back to Orders
+</button>
+
+<div class="search">
+    <input type="text" [formControl]="searchControl" placeholder="Search orders...">
+    <button type="button" (click)="searchOrdersHistory()">
+        Search
+    </button>
+</div>
+
+<app-outbound-order-table
+    [orders]="orders()"
+    [showActions]="false"
+    (viewItems)="viewItems($event)">
+</app-outbound-order-table>
+
+@if (selectedOrder) {
+    <h3>Items for Order #{{ selectedOrder.id }}</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Description</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (item of selectedOrder.items; track item.id) {
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.product.description }}</td>
+                    <td>{{ item.quantity }}</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+    <button type="button" (click)="selectedOrder = null">
+        Close
+    </button>
+}

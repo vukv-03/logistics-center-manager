@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import rs.ac.singidunum.novisad.lcm.model.Product;
 
@@ -54,5 +53,13 @@ public class InboundDeliveryItem {
 
 	public void setQuantity(Long quantity) {
 		this.quantity = quantity;
+	}
+
+	public InboundDelivery getInboundDelivery() {
+		return inboundDelivery;
+	}
+
+	public void setInboundDelivery(InboundDelivery inboundDelivery) {
+		this.inboundDelivery = inboundDelivery;
 	}
 }

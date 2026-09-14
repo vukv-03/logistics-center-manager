@@ -1,0 +1,39 @@
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Created at</th>
+            <th>Arrival date</th>
+            <th>Docking time</th>
+            <th>Status</th>
+            <th>Customer ID</th>
+            <th>Customer</th>
+            <th>Items</th>
+            @if (showActions) {
+                <th>Actions</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @for (d of deliveries; track d.id) {
+        <tr>
+            <td>{{d.id}}</td>
+            <td>{{d.createdAt}}</td>
+            <td>{{d.arrivalDate}}</td>
+            <td>{{d.dockingTime}}</td>
+            <td>{{d.status}}</td>
+            <td>{{d.customerId}}</td>
+            <td>{{d.customer}}</td>
+            <td>
+                <button type="button" (click)="viewItems.emit(d)">View</button>
+            </td>
+            @if (showActions) {
+                <td>
+                    <button type="button" (click)="editDelivery.emit(d)">Edit</button>
+                    <button type="button" (click)="deleteDelivery.emit(d.id)">Remove</button>
+                </td>
+            }
+        </tr>
+        }
+    </tbody>
+</table>

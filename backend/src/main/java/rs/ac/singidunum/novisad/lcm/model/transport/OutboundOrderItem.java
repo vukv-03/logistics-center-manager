@@ -54,4 +54,12 @@ public class OutboundOrderItem {
 	public void setQuantity(Long quantity) {
 		this.quantity = quantity;
 	}
+
+	public OutboundOrder getOutboundOrder() {
+		return outboundOrder;
+	}
+
+	public void setOutboundOrder(OutboundOrder outboundOrder) {
+		this.outboundOrder = outboundOrder;
+	}
 }

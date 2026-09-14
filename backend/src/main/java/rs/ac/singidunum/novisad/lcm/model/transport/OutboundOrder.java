@@ -1,16 +1,21 @@
 package rs.ac.singidunum.novisad.lcm.model.transport;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import rs.ac.singidunum.novisad.lcm.model.helperClasses.Address;
-import rs.ac.singidunum.novisad.lcm.model.helperClasses.TimeSlot;
 import rs.ac.singidunum.novisad.lcm.model.helperClasses.enums.Status;
 import rs.ac.singidunum.novisad.lcm.model.users.Customer;
 
@@ -19,39 +24,39 @@ public class OutboundOrder {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private LocalDate orderDate;
+	private LocalDateTime createdAt;
 	private LocalDate shippingDate;
-	private LocalDate deliveryDate;
+	private LocalTime shippingTime;
+	
+	@Enumerated(EnumType.STRING)
 	private Status status;
 	
 	@ManyToOne()
 	private Address deliveryAddress;
 	
 	@ManyToOne()
-	private TimeSlot timeSlot;
+	private Customer customerOrder;
 	
-	@ManyToOne()
-	private Customer customer;
-	
-	@OneToMany(mappedBy = "outboundOrder")
+	@OneToMany(mappedBy = "outboundOrder", cascade = CascadeType.ALL)
 	private List<OutboundOrderItem> items;
+	
+	@PrePersist
+	private void onCreate() {
+		createdAt = LocalDateTime.now();
+		status = Status.PENDING;
+	}
 
 	public OutboundOrder() {
 		super();
 	}
 
-	public OutboundOrder(Long id, Address deliveryAddress, LocalDate orderDate, LocalDate shippingDate,
-			LocalDate deliveryDate, Status status, TimeSlot timeSlot, Customer customer,
-			List<OutboundOrderItem> items) {
+	public OutboundOrder(LocalDate shippingDate, LocalTime shippingTime, Address deliveryAddress,
+			Customer customerOrder, List<OutboundOrderItem> items) {
 		super();
-		this.id = id;
-		this.deliveryAddress = deliveryAddress;
-		this.orderDate = orderDate;
 		this.shippingDate = shippingDate;
-		this.deliveryDate = deliveryDate;
-		this.status = status;
-		this.timeSlot = timeSlot;
-		this.customer = customer;
+		this.shippingTime = shippingTime;
+		this.deliveryAddress = deliveryAddress;
+		this.customerOrder = customerOrder;
 		this.items = items;
 	}
 
@@ -63,20 +68,12 @@ public class OutboundOrder {
 		this.id = id;
 	}
 
-	public Address getDeliveryAddress() {
-		return deliveryAddress;
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setDeliveryAddress(Address deliveryAddress) {
-		this.deliveryAddress = deliveryAddress;
-	}
-
-	public LocalDate getOrderDate() {
-		return orderDate;
-	}
-
-	public void setOrderDate(LocalDate orderDate) {
-		this.orderDate = orderDate;
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public LocalDate getShippingDate() {
@@ -87,12 +84,12 @@ public class OutboundOrder {
 		this.shippingDate = shippingDate;
 	}
 
-	public LocalDate getDeliveryDate() {
-		return deliveryDate;
+	public LocalTime getShippingTime() {
+		return shippingTime;
 	}
 
-	public void setDeliveryDate(LocalDate deliveryDate) {
-		this.deliveryDate = deliveryDate;
+	public void setShippingTime(LocalTime shippingTime) {
+		this.shippingTime = shippingTime;
 	}
 
 	public Status getStatus() {
@@ -103,20 +100,20 @@ public class OutboundOrder {
 		this.status = status;
 	}
 
-	public TimeSlot getTimeSlot() {
-		return timeSlot;
+	public Address getDeliveryAddress() {
+		return deliveryAddress;
 	}
 
-	public void setTimeSlot(TimeSlot timeSlot) {
-		this.timeSlot = timeSlot;
+	public void setDeliveryAddress(Address deliveryAddress) {
+		this.deliveryAddress = deliveryAddress;
 	}
 
-	public Customer getCustomer() {
-		return customer;
+	public Customer getCustomerOrder() {
+		return customerOrder;
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setCustomerOrder(Customer customerOrder) {
+		this.customerOrder = customerOrder;
 	}
 
 	public List<OutboundOrderItem> getItems() {

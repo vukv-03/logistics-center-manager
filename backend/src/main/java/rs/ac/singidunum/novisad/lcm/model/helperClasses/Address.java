@@ -11,7 +11,7 @@ public class Address {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String name;
+	private String street;
 	private Long buildingNumber;
 	
 	@ManyToOne()
@@ -21,10 +21,10 @@ public class Address {
 		super();
 	}
 
-	public Address(Long id, String name, Long buildingNumber, City city) {
+	public Address(Long id, String street, Long buildingNumber, City city) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.street = street;
 		this.buildingNumber = buildingNumber;
 		this.city = city;
 	}
@@ -37,12 +37,12 @@ public class Address {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getStreet() {
+		return street;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setStreet(String street) {
+		this.street = street;
 	}
 
 	public Long getBuildingNumber() {

@@ -1,0 +1,52 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div>
+        <label>Arrival date</label>
+        <input formControlName="arrivalDate" type="date" name="arrivalDate">
+    </div>
+    <div>
+        <label>Docking time</label>
+        <input formControlName="dockingTime" type="time" name="dockingTime">
+    </div>
+    <div>
+        <label>Status</label>
+        <select formControlName="status" name="status">
+        @for (s of status; track s) {
+            <option [value]="s">{{ s }}</option>
+        }
+        </select>
+    </div>
+    <div>
+        <label>Customer</label>
+        <select formControlName="customerId" name="customerId">
+        @for (c of customers(); track c.id) {
+            <option [ngValue]="c.id">ID: {{ c.id }} - {{ c.name }}</option>
+        }
+        </select>
+    </div>
+    <div formArrayName="items">
+        <h3>Items</h3>
+        @for (item of items.controls; track item; let i = $index) {
+        <div [formGroupName]="i" class="item-row">
+            <div>
+            <label>Product</label>
+            <select formControlName="productId" name="productId">
+                @for (p of products(); track p.id) {
+                <option [ngValue]="p.id">{{ p.name }}</option>
+                }
+            </select>
+            </div>
+            <div>
+            <label>Quantity</label>
+            <input formControlName="quantity" type="number" min="1" name="quantity">
+            </div>
+            <button type="button" (click)="removeItem(i)">Remove</button>
+        </div>
+        }
+    </div>
+    <div>
+        <button type="button" (click)="addItem()">Add item</button>
+    </div>
+    <div>
+        <button type="submit">{{ isEditing ? 'Change' : 'Add' }}</button>
+    </div>
+</form>
