@@ -9,10 +9,10 @@ export class AddressService {
 	public constructor(private http: HttpClient) {}
 
 	getAll() {
-		return this.http.get<Address[]>("http://localhost:8080/api/addresses");
+		return this.http.get<Address[]>("/api/addresses");
 	}
 
 	getById(id: number) {
-		return this.http.get<Address>(`http://localhost:8080/api/addresses/${id}`);
+		return this.http.get<Address>(`/api/addresses/${id}`);
 	}
 }

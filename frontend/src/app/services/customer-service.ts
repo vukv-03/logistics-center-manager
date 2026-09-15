@@ -9,10 +9,10 @@ export class CustomerService {
   	public constructor(private http: HttpClient) {}
 
 	getAll() {
-		return this.http.get<Customer[]>("http://localhost:8080/api/customers");
+		return this.http.get<Customer[]>("/api/customers");
 	}
 
 	getById(id: number) {
-		return this.http.get<Customer>(`http://localhost:8080/api/customers/${id}`);
+		return this.http.get<Customer>(`/api/customers/${id}`);
 	}
 }

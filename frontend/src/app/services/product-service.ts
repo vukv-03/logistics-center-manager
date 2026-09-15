@@ -10,26 +10,26 @@ export class ProductService {
 	public constructor(private http: HttpClient) {}
 
 	getAll() {
-		return this.http.get<Product[]>("http://localhost:8080/api/products");
+		return this.http.get<Product[]>("/api/products");
 	}
 
 	getById(id: number) {
-		return this.http.get<Product>(`http://localhost:8080/api/products/${id}`);
+		return this.http.get<Product>(`/api/products/${id}`);
 	}
 
 	create(product: ProductRequest) {
-		return this.http.post<ProductRequest>("http://localhost:8080/api/products", product);
+		return this.http.post<ProductRequest>("/api/products", product);
 	}
 
 	update(id: number, product: ProductRequest) {
-		return this.http.put<ProductRequest>(`http://localhost:8080/api/products/${id}`, product);
+		return this.http.put<ProductRequest>(`/api/products/${id}`, product);
 	}
 
 	delete(id: number) {
-		return this.http.delete<Product>(`http://localhost:8080/api/products/${id}`);
+		return this.http.delete<Product>(`/api/products/${id}`);
 	}
 
 	search(name: string) {
-		return this.http.get<Product[]>(`http://localhost:8080/api/products/search?name=${encodeURIComponent(name)}`);
+		return this.http.get<Product[]>(`/api/products/search?name=${encodeURIComponent(name)}`);
 	}
 }

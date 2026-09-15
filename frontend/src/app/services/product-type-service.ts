@@ -9,10 +9,10 @@ export class ProductTypeService {
     public constructor(private http: HttpClient) {}
 
 	getAll() {
-		return this.http.get<ProductType[]>("http://localhost:8080/api/product_types");
+		return this.http.get<ProductType[]>("/api/product_types");
 	}
 
 	getById(id: number) {
-		return this.http.get<ProductType>(`http://localhost:8080/api/product_types/${id}`);
+		return this.http.get<ProductType>(`/api/product_types/${id}`);
 	}
 }

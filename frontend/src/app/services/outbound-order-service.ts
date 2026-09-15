@@ -10,34 +10,34 @@ export class OutboundOrderService {
     public constructor(private http: HttpClient) {}
 
     getAll() {
-      	return this.http.get<OutboundOrder[]>("http://localhost:8080/api/outbound_orders");
+      	return this.http.get<OutboundOrder[]>("/api/outbound_orders");
     }
 
     getById(id: number) {
-      	return this.http.get<OutboundOrder>(`http://localhost:8080/api/outbound_orders/${id}`);
+      	return this.http.get<OutboundOrder>(`/api/outbound_orders/${id}`);
     }
 
     create(outboundOrder: OutboundOrderRequest) {
-      	return this.http.post<OutboundOrder>("http://localhost:8080/api/outbound_orders", outboundOrder);
+      	return this.http.post<OutboundOrder>("/api/outbound_orders", outboundOrder);
     }
 
     update(id: number, outboundOrder: OutboundOrderRequest) {
-      	return this.http.put<OutboundOrder>(`http://localhost:8080/api/outbound_orders/${id}`, outboundOrder);
+      	return this.http.put<OutboundOrder>(`/api/outbound_orders/${id}`, outboundOrder);
     }
 
     delete(id: number) {
-      	return this.http.delete<OutboundOrder>(`http://localhost:8080/api/outbound_orders/${id}`);
+      	return this.http.delete<OutboundOrder>(`/api/outbound_orders/${id}`);
     }
 
     search(name: string) {
-        return this.http.get<OutboundOrder[]>(`http://localhost:8080/api/outbound_orders/search?customer=${encodeURIComponent(name)}`);
+        return this.http.get<OutboundOrder[]>(`/api/outbound_orders/search?customer=${encodeURIComponent(name)}`);
     }
 
     searchHistory(name: string) {
-        return this.http.get<OutboundOrder[]>(`http://localhost:8080/api/outbound_orders/history/search?customer=${encodeURIComponent(name)}`);
+        return this.http.get<OutboundOrder[]>(`/api/outbound_orders/history/search?customer=${encodeURIComponent(name)}`);
     }
 
     getHistory() {
-        return this.http.get<OutboundOrder[]>(`http://localhost:8080/api/outbound_orders/history`);
+        return this.http.get<OutboundOrder[]>(`/api/outbound_orders/history`);
     }
 }

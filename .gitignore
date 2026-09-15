@@ -37,4 +37,4 @@ replay_pid*
 target/
 build/
 out/
-bin/
+.env
